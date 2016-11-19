@@ -1,0 +1,10 @@
+#include "View3D.h"
+
+#include "Model.h"
+
+View3D::View3D(Model& model, QWidget* parent)
+	: QWidget(parent)
+	, m_model(model)
+{
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
