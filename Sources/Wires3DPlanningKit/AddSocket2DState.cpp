@@ -1,24 +1,20 @@
 #include "AddSocket2DState.h"
 
-#include "Model.h"
-#include "GraphicsScene.h"
 #include "AddSocketCommand.h"
+#include "Controller.h"
+#include "GraphicsScene.h"
 #include "UndoRedoStack.h"
-
-const int hight = 10;
-const int width = 10;
+#include "QGraphicsItemSocket.h"
 
 AddSocket2DState::~AddSocket2DState()
 {
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-AddSocket2DState::AddSocket2DState(GraphicsScene& scene,
-                                   Model& model,
-                                   UndoRedoStack& commands)
-    : m_scene(scene)
-    , m_model(model)
+AddSocket2DState::AddSocket2DState(Controller& controller, UndoRedoStack& commands, GraphicsScene& scene)
+    : m_controller(controller)
     , m_commands(commands)
+    , m_scene(scene)
 {
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,8 +22,10 @@ AddSocket2DState::AddSocket2DState(GraphicsScene& scene,
 void AddSocket2DState::MousePressEvent(const QGraphicsSceneMouseEvent* mouse_event)
 {
     const QPoint coord = mouse_event->scenePos().toPoint();
-    m_socket_box = QRect(coord.x() - hight / 2, coord.y() - width / 2, hight, width);
-    m_graphics_socket = std::make_unique<QGraphicsEllipseItem>(m_socket_box);
+
+    QRect socket_box(coord.x() - hight / 2, coord.y() - width / 2, hight, width);
+    ModelSocket model_socket(coord);
+    m_graphics_socket = std::make_unique<QGraphicsItemSocket>(socket_box, model_socket);
 
     m_scene.addItem(m_graphics_socket.get());
 }
@@ -39,8 +37,9 @@ void AddSocket2DState::MouseMoveEvent(const QGraphicsSceneMouseEvent* mouse_even
     {
         return;
     }
-    const QPoint coord = mouse_event->scenePos().toPoint();
-    m_socket_box.setTopLeft({coord.x() - hight / 2, coord.y() - width / 2});
+    const QPointF coord = mouse_event->scenePos().toPoint();
+    m_graphics_socket->setPos({coord.x() - hight / 2, coord.y() - width / 2});
+    m_graphics_socket->m_model_socket.m_coordinates = coord.toPoint();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -50,9 +49,10 @@ void AddSocket2DState::MouseReleaseEvent(const QGraphicsSceneMouseEvent* mouse_e
     {
         return;
     }
-    auto temp_socket_command = std::make_unique<AddSocketCommand>(m_scene, m_model, m_graphics_socket.release());
-    m_commands.Register(std::move(temp_socket_command));
+    const QPoint coord = mouse_event->scenePos().toPoint();
+    auto temp_socket_command = std::make_unique<AddSocketCommand>(m_controller, m_graphics_socket->m_model_socket);
 
-    m_socket_box = QRect();
+    m_commands.Register(std::move(temp_socket_command));
+    m_scene.AddSocket(std::move(m_graphics_socket));
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////

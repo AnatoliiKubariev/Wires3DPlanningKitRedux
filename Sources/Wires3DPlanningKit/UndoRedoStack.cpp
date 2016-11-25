@@ -1,5 +1,7 @@
 #include "UndoRedoStack.h"
 
+#include "Controller.h"
+
 void UndoRedoStack::Register(std::unique_ptr<GraphicsCommand> command)
 {
     if(m_top < (m_commands.size() - 1)) //resize stack by new top

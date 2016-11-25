@@ -1,12 +1,12 @@
 #include "ModelSocket.h"
 
-ModelSocket::ModelSocket()
-{
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////
+//ModelSocket::ModelSocket()
+//{
+//}
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ModelSocket::ModelSocket(const QRect& socket_box, const int hight)
-    : m_socket_box(socket_box)
+ModelSocket::ModelSocket(const QPoint& coordinates, const int hight)
+    : m_coordinates(coordinates)
     , m_hight(hight)
 {
 }

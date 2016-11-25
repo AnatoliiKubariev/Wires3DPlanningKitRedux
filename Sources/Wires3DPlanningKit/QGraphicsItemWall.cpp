@@ -16,7 +16,7 @@ QGraphicsItemWall::QGraphicsItemWall(ModelWall& model_wall, QGraphicsItem* paren
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 QGraphicsItemWall::QGraphicsItemWall(ModelWall& model_wall, const QPoint& start, const QPoint& end, QGraphicsItem* parent)
-	: QGraphicsLineItem(start.x(), start.y(), end.x(), end.y(), parent)
+	: QGraphicsLineItem(QLine(start, end), parent)
 	, m_model_wall(model_wall)
 {
 }

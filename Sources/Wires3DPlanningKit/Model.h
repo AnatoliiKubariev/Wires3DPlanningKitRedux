@@ -8,8 +8,8 @@
 class Model
 {
 public:
-	void AddWall(ModelWall& model_wall);
-    void AddSocket(ModelSocket& model_socket);
+	void AddWall(const ModelWall& model_wall);
+    void AddSocket(const ModelSocket& model_socket);
 
     void RemoveWall(const size_t wall_index);
     void RemoveSocket(const size_t socket_index);

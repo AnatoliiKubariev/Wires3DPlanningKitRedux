@@ -2,13 +2,13 @@
 
 #include <algorithm>
 
-void Model::AddWall(ModelWall& model_wall)
+void Model::AddWall(const ModelWall& model_wall)
 {
     m_walls.push_back(model_wall);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Model::AddSocket(ModelSocket& model_socket)
+void Model::AddSocket(const ModelSocket& model_socket)
 {
     m_sockets.push_back(model_socket);
 }

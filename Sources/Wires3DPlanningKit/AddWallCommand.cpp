@@ -1,6 +1,6 @@
 #include "AddWallCommand.h"
+#include "Controller.h"
 #include "GraphicsScene.h"
-#include "Model.h"
 
 #include <utility>
 
@@ -11,36 +11,23 @@ AddWallCommand::~AddWallCommand()
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-AddWallCommand::AddWallCommand(GraphicsScene& scene,
-                               Model& model,
-                               QGraphicsLineItem* graphics_line)
-    : m_scene(scene)
-    , m_model(model)
-    , m_line(graphics_line->line().toLine())
-    , m_graphics_line(graphics_line)
+AddWallCommand::AddWallCommand(Controller& controller, const ModelWall& wall)
+    : m_controller(controller)
+    , m_wall(wall)
 {
-    m_model.AddWall(ModelWall(m_line.p1(), m_line.p2()));
-    m_wall_index = model.GetWallsNumber() - 1;
+    m_controller.AddWall(m_wall);
+    m_wall_index = m_controller.GetWallsNumber() - 1;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AddWallCommand::Redo()
 {
-    if(m_graphics_line)
-    {
-        return;
-    }
-    m_graphics_line = new QGraphicsLineItem(m_line);
-    m_scene.addItem(m_graphics_line);
-    m_model.AddWall(ModelWall(m_line.p1(), m_line.p2()));
+    m_controller.AddWall(m_wall);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AddWallCommand::Undo()
 {
-    m_model.RemoveWall(m_wall_index);
-    m_scene.removeItem(m_graphics_line); // removeItem dont delete data - the ownership of item is passed on to the caller 
-    std::unique_ptr<QGraphicsLineItem> to_del(m_graphics_line);
-    m_graphics_line = nullptr;
+    m_controller.RemoveWall(m_wall_index);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////

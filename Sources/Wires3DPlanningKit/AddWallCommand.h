@@ -3,24 +3,19 @@
 #include "GraphicsCommand.h"
 #include "ModelWall.h"
 
-class QGraphicsLineItem;
+class Controller;
 
 class AddWallCommand: public GraphicsCommand
 {
 public:
     ~AddWallCommand();
-    AddWallCommand(GraphicsScene& scene,
-                   Model& model,
-                   QGraphicsLineItem* graphics_line);
+    AddWallCommand(Controller& controller, const ModelWall& wall);
 
     void Redo() override;
     void Undo() override;
 
 private:
-    GraphicsScene& m_scene;
-    Model& m_model;
-    QLine m_line;
+    Controller& m_controller;
+    ModelWall m_wall;
     size_t m_wall_index;
-
-    QGraphicsLineItem* m_graphics_line;
 };

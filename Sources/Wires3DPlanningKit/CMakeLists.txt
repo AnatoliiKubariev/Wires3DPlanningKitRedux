@@ -24,6 +24,9 @@ View2DState.h
 View3D.h 
 Wires3DPlanningKit.h 
 ModelSocket.h
+QGraphicsItemSocket.h
+SecondView2D.h
+Controller.h
 )
 
 SET(SOURCE 
@@ -42,6 +45,9 @@ View2DState.cpp
 View3D.cpp 
 Wires3DPlanningKit.cpp 
 ModelSocket.cpp
+SecondView2D.cpp
+QGraphicsItemSocket.cpp
+Controller.cpp
 main.cpp 
 )
 

@@ -1,12 +1,12 @@
 #pragma once
 
-#include <QRect>
+#include <QPoint>
 
 struct ModelSocket
 {
-    ModelSocket();
-    ModelSocket(const QRect& socket_box, const int hight = 1);
+    //ModelSocket();
+    ModelSocket(const QPoint& coordinates, const int hight = 1);
 
-    QRect m_socket_box;
+    QPoint m_coordinates;
     int m_hight;
 };

@@ -1,28 +1,21 @@
 #pragma once
 
 #include "GraphicsCommand.h"
-#include "ModelWall.h"
+#include "ModelSocket.h"
 
-#include <QRect>
-
-class QGraphicsEllipseItem;
+class Controller;
 
 class AddSocketCommand: public GraphicsCommand
 {
 public:
     ~AddSocketCommand();
-    AddSocketCommand(GraphicsScene& scene,
-                     Model& model,
-                     QGraphicsEllipseItem* graphics_socket);
+    AddSocketCommand(Controller& controller, const ModelSocket& socket);
 
     void Redo() override;
     void Undo() override;
 
 private:
-    GraphicsScene& m_scene;
-    Model& m_model;
-    QRect m_box;
+    Controller& m_controller;
+    ModelSocket m_socket;
     size_t m_socket_index;
-
-    QGraphicsEllipseItem* m_graphics_socket;
 };

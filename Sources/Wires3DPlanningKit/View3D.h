@@ -2,15 +2,15 @@
 
 #include <QWidget>
 
-class Model;
+class Controller;
 
 class View3D: public QWidget
 {
 	Q_OBJECT
 
 public:
-	View3D(Model& model, QWidget* parent = 0);
+	View3D(Controller& controller, QWidget* parent = 0);
 
 private:
-	Model& m_model;
+    Controller& m_controller;
 };
