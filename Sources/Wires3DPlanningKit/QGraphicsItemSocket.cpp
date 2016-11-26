@@ -10,8 +10,10 @@ QGraphicsItemSocket::~QGraphicsItemSocket()
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-QGraphicsItemSocket::QGraphicsItemSocket(const QPoint& socket_box, ModelSocket& model_socket, QGraphicsItem* parent)
-    : QGraphicsEllipseItem(socket_box, parent)
+QGraphicsItemSocket::QGraphicsItemSocket(ModelSocket& model_socket, QGraphicsItem* parent)
+    : QGraphicsEllipseItem(model_socket.m_coordinates.x() - hight / 2, 
+                           model_socket.m_coordinates.y() - width / 2, 
+                           width, hight, parent)
     , m_model_socket(model_socket)
 {
 }
