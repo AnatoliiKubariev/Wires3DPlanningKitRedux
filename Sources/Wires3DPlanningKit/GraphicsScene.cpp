@@ -1,7 +1,6 @@
 #include "GraphicsScene.h"
 
 #include "AddSocket2DState.h"
-#include "AddWall2DState.h"
 #include "Controller.h"
 #include "ModelSocket.h"
 #include "ModelWall.h"
@@ -10,10 +9,10 @@
 
 #include <QPainter>
 
-GraphicsScene::GraphicsScene(Controller& controller, UndoRedoStack& commands, QObject* parent)
+GraphicsScene::GraphicsScene(Controller& controller, QObject* parent)
     : QGraphicsScene(parent)
     //, m_state(std::make_unique<AddWall2DState>(*this, model, commands))
-    , m_state(std::make_unique<AddSocket2DState>(controller, commands, *this))
+    , m_state(std::make_unique<AddSocket2DState>(controller, *this))
 {
 
     //m_state = std::move(std::make_unique<AddWall2DState>());
@@ -26,7 +25,7 @@ void GraphicsScene::AddSocket(std::unique_ptr<QGraphicsItemSocket> socket)
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsScene::Update(ModelSocket& socket)
+void GraphicsScene::Update(const ModelSocket& socket)
 {
     auto graphics_socket = std::make_unique<QGraphicsItemSocket>(socket);
 
@@ -36,28 +35,15 @@ void GraphicsScene::Update(ModelSocket& socket)
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-void GraphicsScene::Update(ModelWall& wall)
-{
-
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-void GraphicsScene::Remove(ModelSocket& socket)
+void GraphicsScene::Remove(const int id)
 {
     auto it = std::find_if(m_sockets.begin(), m_sockets.end(),
-                           [&socket](const std::unique_ptr<QGraphicsItemSocket>& s)
+                           [id](const std::unique_ptr<QGraphicsItemSocket>& s)
     {
-        return &s.get()->m_model_socket == &socket;
+        return s.get()->m_id == id;
     });
 
     m_sockets.erase(it);
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-void GraphicsScene::Remove(ModelWall& wall)
-{
-
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 

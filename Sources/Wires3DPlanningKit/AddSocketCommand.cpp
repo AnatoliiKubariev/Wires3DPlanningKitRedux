@@ -15,7 +15,6 @@ AddSocketCommand::AddSocketCommand(Controller& controller, const ModelSocket& so
     : m_controller(controller)
     , m_socket(socket)
 {
-    controller.AddSocket(m_socket);
     m_socket_index = controller.GetSocketsNumber() - 1;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////

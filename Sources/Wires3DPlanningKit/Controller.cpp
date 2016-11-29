@@ -1,10 +1,14 @@
 #include "Controller.h"
 
+#include "AddSocketCommand.h"
 #include "ModelSocket.h"
 #include "ModelWall.h"
 #include "Model.h"
 #include "View2D.h"
 #include "SecondView2D.h"
+#include "Utility.h"
+
+#include <memory>
 
 Controller::~Controller()
 {
@@ -15,11 +19,28 @@ Controller::~Controller()
 //{
 //}
 
-Controller::Controller(Model& model, View2D& view_2d, SecondView2D& second_view_2d)
+Controller::Controller(Model& model)
     : m_model(model)
-    , m_view_2d(view_2d)
-    , m_second_view_2d(second_view_2d)
+    , m_commands()
 {
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Controller::AddView(View2D* view_2d)
+{
+    m_views_2d.push_back(view_2d);
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Controller::Redo()
+{
+    m_commands.Redo();
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Controller::Undo()
+{
+    m_commands.Undo();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,6 +53,11 @@ void Controller::AddWall(const ModelWall& model_wall)
 void Controller::AddSocket(const ModelSocket& model_socket)
 {
     m_model.AddSocket(model_socket);
+
+    auto temp_socket_command = std::make_unique<AddSocketCommand>(*this, model_socket);
+    m_commands.Register(std::move(temp_socket_command));
+
+    this->Update(m_model.m_sockets.back());
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -43,6 +69,8 @@ void Controller::RemoveWall(const size_t wall_index)
 
 void Controller::RemoveSocket(const size_t socket_index)
 {
+    const ModelSocket& socket = m_model.m_sockets[socket_index];
+    this->Remove(socket.m_id);
     m_model.RemoveSocket(socket_index);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,15 +87,20 @@ size_t Controller::GetSocketsNumber()
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Controller::Update(ModelSocket& socket)
+void Controller::Update(ModelSocket& model_socket)
 {
-    m_second_view_2d.Update(socket);
-    //m_view_2d.Update(socket);
+    for(auto view : m_views_2d)
+    {
+        view->Update(model_socket);
+    }
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Controller::Remove(ModelSocket& socket)
+void Controller::Remove(const int id)
 {
-    m_view_2d.Remove(socket);
+    for(auto view : m_views_2d)
+    {
+        view->Remove(id);
+    }
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////

@@ -10,11 +10,11 @@ QGraphicsItemSocket::~QGraphicsItemSocket()
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-QGraphicsItemSocket::QGraphicsItemSocket(ModelSocket& model_socket, QGraphicsItem* parent)
-    : QGraphicsEllipseItem(model_socket.m_coordinates.x() - hight / 2, 
-                           model_socket.m_coordinates.y() - width / 2, 
+QGraphicsItemSocket::QGraphicsItemSocket(const ModelSocket& model_socket, QGraphicsItem* parent)
+    : QGraphicsEllipseItem(model_socket.m_coordinates.x() - hight / 2,
+                           model_socket.m_coordinates.y() - width / 2,
                            width, hight, parent)
-    , m_model_socket(model_socket)
+    , m_id(model_socket.m_id)
 {
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////

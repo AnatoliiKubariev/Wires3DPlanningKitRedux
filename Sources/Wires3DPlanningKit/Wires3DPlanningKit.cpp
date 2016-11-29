@@ -5,12 +5,16 @@
 Wires3DPlaningKit::Wires3DPlaningKit(QWidget *parent)
 	: QMainWindow(parent)
 	, m_model()
-    , m_controller(m_model, m_view_2d, m_second_view_2d)
-    , m_commands()
-    , m_view_2d(m_controller, m_commands)
-    , m_second_view_2d(m_controller, m_commands)
+    , m_controller(m_model)
+    , m_view_2d(m_controller, this)
+    , m_second_view_2d(m_controller, this)
 {
 	m_ui.setupUi(this);
+
+    InitializeUndoRedo();
+
+    m_controller.AddView(&m_view_2d);
+    m_controller.AddView(&m_second_view_2d);
 
     QWidget* widget = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout(widget);
@@ -24,27 +28,28 @@ Wires3DPlaningKit::Wires3DPlaningKit(QWidget *parent)
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Wires3DPlaningKit::Update(const ModelSocket& socket)
+void Wires3DPlaningKit::Redo()
 {
-
+    m_controller.Redo();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Wires3DPlaningKit::Remove(const ModelSocket& socket)
+void Wires3DPlaningKit::Undo()
 {
-
+    m_controller.Undo();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Wires3DPlaningKit::InitializeUndoRedo()
 {
-    //QAction* undo_action = new QAction(this);
-    //undo_action->setShortcut(QKeySequence::Undo);
-    //connect(undo_action, &QAction::triggered, &m_scene, &GraphicsScene::Undo);
-    //addAction(undo_action);
-    //QAction* redo_action = new QAction(this);
-    //redo_action->setShortcut(QKeySequence::Redo);
-    //connect(redo_action, &QAction::triggered, &m_scene, &GraphicsScene::Redo);
-    //addAction(redo_action);
+    QAction* undo_action = new QAction(this);
+    undo_action->setShortcut(QKeySequence::Undo);
+    connect(undo_action, &QAction::triggered, this, &Wires3DPlaningKit::Undo);
+    addAction(undo_action);
+
+    QAction* redo_action = new QAction(this);
+    redo_action->setShortcut(QKeySequence::Redo);
+    connect(redo_action, &QAction::triggered, this, &Wires3DPlaningKit::Redo);
+    addAction(redo_action);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////

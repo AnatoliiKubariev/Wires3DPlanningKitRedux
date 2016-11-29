@@ -1,10 +1,13 @@
 #pragma once
 
+#include "UndoRedoStack.h"
+#include "View2D.h"
+
+#include <vector>
+
 class Model;
 struct ModelSocket;
 struct ModelWall;
-class View2D;
-class SecondView2D;
 
 class Controller
 {
@@ -14,9 +17,13 @@ public:
     //Controller(Model& model);
 
     // temp constructor
-    Controller(Model& model, View2D& view_2d, SecondView2D& second_view_2d);
+    Controller(Model& model);
 
     //void LoadViews();
+    void AddView(View2D* view_2d);
+
+    void Undo();
+    void Redo();
 
     void AddWall(const ModelWall& model_wall);
     void AddSocket(const ModelSocket& model_socket);
@@ -27,11 +34,13 @@ public:
     size_t GetWallsNumber();
     size_t GetSocketsNumber();
 
-    void Update(ModelSocket& socket);
-    void Remove(ModelSocket& socket);
 
 private:
+    void Update(ModelSocket& model_socket);
+    void Remove(const int id);
+
     Model& m_model;
-    View2D& m_view_2d;
-    SecondView2D& m_second_view_2d;
+    UndoRedoStack m_commands;
+
+    std::vector<View2D*> m_views_2d;
 };

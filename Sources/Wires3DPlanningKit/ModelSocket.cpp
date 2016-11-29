@@ -5,8 +5,9 @@
 //}
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-ModelSocket::ModelSocket(const QPoint& coordinates, const int hight)
-    : m_coordinates(coordinates)
+ModelSocket::ModelSocket(const int id, const QPoint& coordinates, const int hight)
+    : m_id(id)
+    , m_coordinates(coordinates)
     , m_hight(hight)
 {
 }

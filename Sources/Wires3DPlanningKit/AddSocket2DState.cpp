@@ -4,6 +4,7 @@
 #include "Controller.h"
 #include "GraphicsScene.h"
 #include "UndoRedoStack.h"
+#include "Utility.h"
 #include "QGraphicsItemSocket.h"
 
 const int hight = 10;
@@ -14,9 +15,8 @@ AddSocket2DState::~AddSocket2DState()
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-AddSocket2DState::AddSocket2DState(Controller& controller, UndoRedoStack& commands, GraphicsScene& scene)
+AddSocket2DState::AddSocket2DState(Controller& controller, GraphicsScene& scene)
     : m_controller(controller)
-    , m_commands(commands)
     , m_scene(scene)
 {
 }
@@ -26,15 +26,13 @@ void AddSocket2DState::MousePressEvent(const QGraphicsSceneMouseEvent* mouse_eve
 {
     const QPoint coord = mouse_event->scenePos().toPoint();
 
-    ModelSocket model_socket(coord);
-    m_graphics_socket = std::make_unique<QGraphicsItemSocket>(model_socket);
+    ModelSocket model_socket(GetId(), coord);
+    //m_graphics_socket = std::make_unique<QGraphicsItemSocket>(model_socket);
 
-    m_scene.addItem(m_graphics_socket.get());
-    m_scene.AddSocket(std::move(m_graphics_socket));
+    //m_scene.addItem(m_graphics_socket.get());
+    //m_scene.AddSocket(std::move(m_graphics_socket));
 
-    auto temp_socket_command = std::make_unique<AddSocketCommand>(m_controller, model_socket);
-    m_commands.Register(std::move(temp_socket_command));
-    m_controller.Update(model_socket);
+    m_controller.AddSocket(model_socket);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 

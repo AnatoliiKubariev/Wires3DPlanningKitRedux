@@ -4,9 +4,9 @@
 #include "Model.h"
 #include "Wires3DPlanningKit.h"
 
-View2D::View2D(Controller& controller, UndoRedoStack& commands, QWidget* parent)
+View2D::View2D(Controller& controller, QWidget* parent)
 	: QWidget(parent)
-	, m_scene(controller, commands)
+	, m_scene(controller)
 {
 	m_ui.setupUi(this);
 
@@ -14,14 +14,14 @@ View2D::View2D(Controller& controller, UndoRedoStack& commands, QWidget* parent)
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void View2D::Update(ModelSocket& socket)
+void View2D::Update(const ModelSocket& model_socket)
 {
-    m_scene.Update(socket);
+    m_scene.Update(model_socket);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void View2D::Remove(ModelSocket& socket)
+void View2D::Remove(const int id)
 {
-    m_scene.Remove(socket);
+    m_scene.Remove(id);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////

@@ -12,10 +12,9 @@ class SecondView2D: public QWidget
     Q_OBJECT
 
 public:
-    SecondView2D(Controller& controller, UndoRedoStack& commands, QWidget* parent = 0);
+    SecondView2D(Controller& controller, QWidget* parent = 0);
 
-    void Update(ModelSocket& socket);
-    void Remove(ModelSocket& socket);
+    void Remove(const int id);
 
 private:
     Ui::SecondView2D m_ui;

@@ -7,7 +7,7 @@ struct ModelSocket;
 struct QGraphicsItemSocket: public QGraphicsEllipseItem
 {
 	~QGraphicsItemSocket();
-    QGraphicsItemSocket(ModelSocket& model_socket, QGraphicsItem* parent = 0);
+    QGraphicsItemSocket(const ModelSocket& model_socket, QGraphicsItem* parent = 0);
 
-    ModelSocket& m_model_socket;
+    const int m_id;
 };

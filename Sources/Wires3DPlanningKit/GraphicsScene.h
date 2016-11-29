@@ -20,15 +20,13 @@ class GraphicsScene: public QGraphicsScene
 	Q_OBJECT
 
 public:
-	GraphicsScene(Controller& controller, UndoRedoStack& commands, QObject* parent = 0);
+	GraphicsScene(Controller& controller, QObject* parent = 0);
 
     void AddSocket(std::unique_ptr<QGraphicsItemSocket> socket);
 
-    void Update(ModelSocket& socket);
-    void Update(ModelWall& wall);
+    void Update(const ModelSocket& socket);
 
-    void Remove(ModelWall& wall);
-    void Remove(ModelSocket& socket);
+    void Remove(const int id);
 
 protected:
 	void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent) override;

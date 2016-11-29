@@ -13,7 +13,7 @@ class AddSocket2DState: public View2DState
 {
 public:
     ~AddSocket2DState();
-    AddSocket2DState(Controller& controller, UndoRedoStack& commands, GraphicsScene& scene);
+    AddSocket2DState(Controller& controller, GraphicsScene& scene);
 
     void MousePressEvent(const QGraphicsSceneMouseEvent* mouse_event) override;
     void MouseMoveEvent(const QGraphicsSceneMouseEvent* mouse_event) override;
@@ -21,7 +21,6 @@ public:
 
 private:
     Controller& m_controller;
-    UndoRedoStack& m_commands;
     GraphicsScene& m_scene;
 
     std::unique_ptr<QGraphicsItemSocket> m_graphics_socket;

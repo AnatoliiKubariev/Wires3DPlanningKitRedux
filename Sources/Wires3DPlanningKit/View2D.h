@@ -12,10 +12,10 @@ class View2D: public QWidget
     Q_OBJECT
 
 public:
-    View2D(Controller& controller, UndoRedoStack& commands, QWidget* parent = 0);
+    View2D(Controller& controller, QWidget* parent = 0);
 
-    void Update(ModelSocket& socket);
-    void Remove(ModelSocket& socket);
+    void Update(const ModelSocket& model_socket);
+    void Remove(const int id);
 
 private:
     Ui::View2DClass m_ui;
