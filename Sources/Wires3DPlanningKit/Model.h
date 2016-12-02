@@ -11,8 +11,7 @@ public:
 	void AddWall(const ModelWall& model_wall);
     void AddSocket(const ModelSocket& model_socket);
 
-    void RemoveWall(const size_t wall_index);
-    void RemoveSocket(const size_t socket_index);
+    void Remove(const int id);
 
     size_t GetWallsNumber();
     size_t GetSocketsNumber();

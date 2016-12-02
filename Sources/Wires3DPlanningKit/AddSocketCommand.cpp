@@ -15,18 +15,17 @@ AddSocketCommand::AddSocketCommand(Controller& controller, const ModelSocket& so
     : m_controller(controller)
     , m_socket(socket)
 {
-    m_socket_index = controller.GetSocketsNumber() - 1;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AddSocketCommand::Redo()
 {
-    m_controller.AddSocket(m_socket);
+    m_controller.Update(m_socket);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AddSocketCommand::Undo()
 {
-    m_controller.RemoveSocket(m_socket_index);
+    m_controller.Remove(m_socket.m_id);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////

@@ -16,5 +16,5 @@ public:
 
 private:
     std::vector<std::unique_ptr<GraphicsCommand>> m_commands;
-    int m_top = 0;
+    int m_top = -1;
 };

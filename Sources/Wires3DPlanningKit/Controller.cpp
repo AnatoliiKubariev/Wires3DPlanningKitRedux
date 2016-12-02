@@ -6,7 +6,6 @@
 #include "Model.h"
 #include "View2D.h"
 #include "SecondView2D.h"
-#include "Utility.h"
 
 #include <memory>
 
@@ -52,26 +51,10 @@ void Controller::AddWall(const ModelWall& model_wall)
 
 void Controller::AddSocket(const ModelSocket& model_socket)
 {
-    m_model.AddSocket(model_socket);
-
     auto temp_socket_command = std::make_unique<AddSocketCommand>(*this, model_socket);
     m_commands.Register(std::move(temp_socket_command));
 
-    this->Update(m_model.m_sockets.back());
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Controller::RemoveWall(const size_t wall_index)
-{
-    m_model.RemoveWall(wall_index);
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Controller::RemoveSocket(const size_t socket_index)
-{
-    const ModelSocket& socket = m_model.m_sockets[socket_index];
-    this->Remove(socket.m_id);
-    m_model.RemoveSocket(socket_index);
+    this->Update(model_socket);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -87,8 +70,9 @@ size_t Controller::GetSocketsNumber()
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Controller::Update(ModelSocket& model_socket)
+void Controller::Update(const ModelSocket& model_socket)
 {
+    m_model.AddSocket(model_socket);
     for(auto view : m_views_2d)
     {
         view->Update(model_socket);
@@ -102,5 +86,6 @@ void Controller::Remove(const int id)
     {
         view->Remove(id);
     }
+    m_model.Remove(id);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////

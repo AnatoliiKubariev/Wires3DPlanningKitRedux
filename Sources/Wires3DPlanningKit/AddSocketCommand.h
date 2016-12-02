@@ -17,5 +17,4 @@ public:
 private:
     Controller& m_controller;
     ModelSocket m_socket;
-    size_t m_socket_index;
 };

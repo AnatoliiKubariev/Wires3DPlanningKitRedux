@@ -4,10 +4,11 @@
 
 void UndoRedoStack::Register(std::unique_ptr<GraphicsCommand> command)
 {
-    if(m_top < (m_commands.size() - 1)) //resize stack by new top
+    if(m_top < static_cast<int>(m_commands.size() - 1)) //resize stack by new top
     {
         m_commands.resize(m_top + 1);
     }
+
     m_commands.push_back(std::move(command));
     ++m_top;
 }
@@ -15,7 +16,7 @@ void UndoRedoStack::Register(std::unique_ptr<GraphicsCommand> command)
 
 void UndoRedoStack::Redo()
 {
-    if(m_top >= (static_cast<int>(m_commands.size()) - 1)) //return if top - last element
+    if(m_top >= static_cast<int>(m_commands.size() - 1)) //return if top - last element
     {
         return;
     }
@@ -26,7 +27,7 @@ void UndoRedoStack::Redo()
 
 void UndoRedoStack::Undo()
 {
-    if(m_top == 0)
+    if(m_top == -1)
     {
         return;
     }

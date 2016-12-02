@@ -37,11 +37,16 @@ void GraphicsScene::Update(const ModelSocket& socket)
 
 void GraphicsScene::Remove(const int id)
 {
-    auto it = std::find_if(m_sockets.begin(), m_sockets.end(),
+    const auto it = std::find_if(m_sockets.begin(), m_sockets.end(),
                            [id](const std::unique_ptr<QGraphicsItemSocket>& s)
     {
         return s.get()->m_id == id;
     });
+
+    if(it == m_sockets.end())
+    {
+        return;
+    }
 
     m_sockets.erase(it);
 }

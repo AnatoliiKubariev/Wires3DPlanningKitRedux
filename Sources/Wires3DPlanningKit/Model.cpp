@@ -14,15 +14,20 @@ void Model::AddSocket(const ModelSocket& model_socket)
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Model::RemoveWall(const size_t wall_index)
+void Model::Remove(const int id)
 {
-    m_walls.erase(m_walls.begin() + wall_index);
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////
+    const auto it = std::find_if(m_sockets.begin(), m_sockets.end(),
+                                 [id](const ModelSocket& model_socket)
+    {
+        return model_socket.m_id == id;
+    });
 
-void Model::RemoveSocket(const size_t socket_index)
-{
-    m_sockets.erase(m_sockets.begin() + socket_index);
+    if(it == m_sockets.end())
+    {
+        return;
+    }
+
+    m_sockets.erase(it);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
