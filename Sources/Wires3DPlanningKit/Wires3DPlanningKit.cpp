@@ -1,5 +1,7 @@
 #include "Wires3DPlanningKit.h"
 
+#include "View3D.h"
+
 #include <QLayout>
 
 Wires3DPlaningKit::Wires3DPlaningKit(QWidget *parent)
@@ -25,6 +27,15 @@ Wires3DPlaningKit::Wires3DPlaningKit(QWidget *parent)
     widget->setLayout(layout);
 
     setCentralWidget(widget);
+
+	QTOgreWindow* window3d = new QTOgreWindow();
+
+
+	window3d->RenderWall(0, 0, 1, 0);
+	//window3d->RenderWall(0, 0, 0, 1);
+	//window3d->RenderWall(1, 0, 1, 1);
+
+	window3d->show();
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
